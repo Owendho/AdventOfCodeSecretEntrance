@@ -4,12 +4,20 @@ using System.Text;
 
 namespace AdventOfCodeSecretEntrance
 {
-    public class NodeRecord
+    public class Node
     {
         public int data;
-        public NodeRecord nextItem;
-        public NodeRecord previousItem;
-        public NodeRecord tail;
-        public NodeRecord head;
+        public Node next;
+        public Node previous;
+        public Node tail;
+        public Node head;
+
+        public Node(int data)
+        {
+            this.data = data;
+            this.next = null;
+            this.previous = null;
+            this.head = null;
+        }
     }
 }

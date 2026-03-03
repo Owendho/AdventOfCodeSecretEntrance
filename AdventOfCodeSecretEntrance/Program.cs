@@ -1,9 +1,31 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using AdventOfCodeSecretEntrance;
+
 Console.WriteLine("Hello, World!");
 
 //Might be better of making my own circular linked list from scratch
 //need to make my own circular doubly linked list 
-LinkedList<int> safeDial = new LinkedList<int>();
+
+
+
+Node head = new Node(12);
+
+head.next = new Node(56);
+
+head.next.next = new Node(55);
+
+Node temp = head;
+
+/*
+while (temp != null)
+{
+    Console.WriteLine(temp.data + " ");
+    temp = temp.next;
+}*/
+
+TraveserseLinkedList(head);
+
+/*LinkedList<int> safeDial = new LinkedList<int>();
 safeDial.AddFirst(0);
 
 LinkedListNode<int> current = safeDial.First;
@@ -14,6 +36,7 @@ for (int i = 1; i < 99; i++)
 }
 
 Console.WriteLine(safeDial.Count());
+*/
 
 //LinkedListNode<int> 
 
@@ -30,3 +53,17 @@ static LinkedListNode<int> tailNext(LinkedList<int> safeDial)
 }
 
 //Write method to populate list
+
+static void TraveserseLinkedList(Node head)
+{
+    while(head != null)
+    {
+        Console.WriteLine(head.data + " ");
+        if(head.next != null)
+        {
+            Console.Write(" -> ");
+        }
+        head = head.next;
+    }
+    Console.WriteLine();
+}
