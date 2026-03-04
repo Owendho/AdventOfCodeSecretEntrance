@@ -8,13 +8,13 @@ Console.WriteLine("Hello, World!");
 
 
 
-Node head = new Node(12);
+//Node head = new Node(12);
 
-head.next = new Node(56);
+//head.next = new Node(56);
 
-head.next.next = new Node(55);
+//head.next.next = new Node(55);
 
-Node temp = head;
+//Node temp = head;
 
 /*
 while (temp != null)
@@ -22,6 +22,16 @@ while (temp != null)
     Console.WriteLine(temp.data + " ");
     temp = temp.next;
 }*/
+
+Node head = new Node(0);
+//InsertAfterNode(head, 2);
+
+Node current = head;
+
+for (int i = 1; i < 100; i++)
+{
+    current = InsertAfterNode(current, i);
+}
 
 TraveserseLinkedList(head);
 
@@ -54,6 +64,8 @@ static LinkedListNode<int> tailNext(LinkedList<int> safeDial)
 
 //Write method to populate list
 
+
+
 static void TraveserseLinkedList(Node head)
 {
     while(head != null)
@@ -66,4 +78,18 @@ static void TraveserseLinkedList(Node head)
         head = head.next;
     }
     Console.WriteLine();
+}
+
+static Node InsertAfterNode(Node prevNode, int x)
+{
+    Node newNode = new Node(x);
+    prevNode.next = newNode; 
+    return newNode; //return new node so that it can be used in a loop
+}
+
+static Node InsertAtFront(Node head, int x)
+{
+    Node newNode = new Node(x);
+    newNode.next = head;
+    return newNode;
 }
