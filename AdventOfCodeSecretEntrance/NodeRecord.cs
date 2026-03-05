@@ -10,14 +10,13 @@ namespace AdventOfCodeSecretEntrance
         public Node next;
         public Node previous;
         public Node tail;
-        public Node head;
+
 
         public Node(int data)
         {
             this.data = data;
             this.next = null;
             this.previous = null;
-            this.head = null;
         }
     }
 }

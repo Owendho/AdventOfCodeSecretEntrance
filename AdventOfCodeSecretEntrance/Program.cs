@@ -28,29 +28,16 @@ Node head = new Node(0);
 
 Node current = head;
 
-for (int i = 1; i < 100; i++)
+for (int i = 1; i < 100; i++) //changed to 3 temporarily
 {
-    current = InsertAfterNode(current, i);
+    //current = InsertAfterNode(current, i);
+    //InsertAtEnd(head, i);
+    InsertAtBeginning(head, i);
 }
 
-TraveserseLinkedList(head);
+//TraveserseLinkedList(head);
+printLinkedList(head);
 
-/*LinkedList<int> safeDial = new LinkedList<int>();
-safeDial.AddFirst(0);
-
-LinkedListNode<int> current = safeDial.First;
-for (int i = 1; i < 99; i++)
-{
-    safeDial.AddAfter(current, i);
-    current = safeDial.Last;
-}
-
-Console.WriteLine(safeDial.Count());
-*/
-
-//LinkedListNode<int> 
-
-//Create a method called head.previous
 
 static LinkedListNode<int> headPrevious(LinkedList<int> safeDial)
 {
@@ -63,6 +50,8 @@ static LinkedListNode<int> tailNext(LinkedList<int> safeDial)
 }
 
 //Write method to populate list
+
+
 
 
 
@@ -93,3 +82,77 @@ static Node InsertAtFront(Node head, int x)
     newNode.next = head;
     return newNode;
 }
+
+
+static Node InsertAtBeginning(Node last, int key) //cicular linked list
+{
+    Node newNode = new Node(key);
+
+    if (last == null)
+    {
+        newNode.next = newNode;
+        return newNode;
+    }
+
+    if(last.next == null)
+    {
+        last.next = last;
+    }
+    newNode.next = last.next; //new node points to the head? the newNode points to the head because it becomes the new head
+    last.next = newNode; //last node points to 
+
+    return last;
+}
+
+
+static Node InsertAtEnd(Node tail, int key) // circular linked list
+{
+    Node newNode = new Node(key);
+
+    if (tail == null)
+    {
+        newNode.next = newNode;
+        return newNode;
+    }
+
+    if(tail.next == null)
+    {
+        tail.next = tail;
+    }
+    //new node needs to become last node
+    Node head = tail.next;
+    newNode.next = head;
+
+    tail.next = newNode;
+
+    tail = newNode;
+
+    return tail;
+}
+
+//edit print statement so that it prints 1,2,3 instead of 3,2,1
+static void printLinkedList(Node last)
+{
+    if (last == null) return;
+
+    Node head = last.next;
+    Node temp = head;
+
+    while (true)
+    {
+
+        Console.WriteLine(temp.data);
+        temp = temp.next;
+        if (temp != head)
+        {
+            Console.Write(" -> ");
+        }
+        else
+        {
+            break; //do this to stop printing after reaching the end of the list
+        }
+    }
+    Console.WriteLine();
+}
+
+
