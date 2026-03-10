@@ -8,20 +8,6 @@ Console.WriteLine("Hello, World!");
 
 
 
-//Node head = new Node(12);
-
-//head.next = new Node(56);
-
-//head.next.next = new Node(55);
-
-//Node temp = head;
-
-/*
-while (temp != null)
-{
-    Console.WriteLine(temp.data + " ");
-    temp = temp.next;
-}*/
 
 Node head = new Node(0);
 //InsertAfterNode(head, 2);
@@ -31,13 +17,20 @@ Node current = head;
 for (int i = 1; i < 100; i++) //changed to 3 temporarily
 {
     //current = InsertAfterNode(current, i);
-    //InsertAtEnd(head, i);
-    InsertAtBeginning(head, i);
+    current = InsertAtEnd(current, i);
+    //current = InsertAtBeginning(current, i);
 }
 
 //TraveserseLinkedList(head);
 printLinkedList(head);
 
+static void calculateZeros()
+{
+    //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
+
+
+
+}
 
 static LinkedListNode<int> headPrevious(LinkedList<int> safeDial)
 {
@@ -105,6 +98,8 @@ static Node InsertAtBeginning(Node last, int key) //cicular linked list
 }
 
 
+
+
 static Node InsertAtEnd(Node tail, int key) // circular linked list
 {
     Node newNode = new Node(key);
@@ -120,8 +115,8 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
         tail.next = tail;
     }
     //new node needs to become last node
-    Node head = tail.next;
-    newNode.next = head;
+    //Node head = tail.next; //this line is strange
+    //newNode.next = head;
 
     tail.next = newNode;
 
@@ -131,25 +126,26 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
 }
 
 //edit print statement so that it prints 1,2,3 instead of 3,2,1
-static void printLinkedList(Node last)
+static void printLinkedList(Node head)
 {
-    if (last == null) return;
+    if (head == null) return;
 
-    Node head = last.next;
+    //Node head = last;
     Node temp = head;
 
     while (true)
     {
-
-        Console.WriteLine(temp.data);
-        temp = temp.next;
-        if (temp != head)
-        {
-            Console.Write(" -> ");
-        }
-        else
-        {
-            break; //do this to stop printing after reaching the end of the list
+        if (temp.next != null) {
+            Console.WriteLine(temp.data);
+            temp = temp.next;
+            if (temp != head && temp.next != null)
+            {
+                Console.Write(" -> ");
+            }
+            else
+            {
+                break; //do this to stop printing after reaching the end of the list
+            }
         }
     }
     Console.WriteLine();
