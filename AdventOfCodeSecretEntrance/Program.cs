@@ -14,35 +14,35 @@ Node head = new Node(0);
 
 Node current = head;
 
-for (int i = 1; i < 100; i++) //changed to 3 temporarily
+for (int i = 1; i < 101; i++) //changed to 3 temporarily
 {
     //current = InsertAfterNode(current, i);
     current = InsertAtEnd(current, i);
     //current = InsertAtBeginning(current, i);
 }
 
+//Need to create method that reads input from a text file
+
 //TraveserseLinkedList(head);
 printLinkedList(head);
 
-static void calculateZeros()
+static void calculateZeros(string inputFromText)
 {
     //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
+    int amountOfrows = 0;
+    string direction = " ";
+    for (int i = 0; i < amountOfrows; i++)
+    {
 
+        if (direction == "R")
+        {
+            
+        }
+    }
 
 
 }
 
-static LinkedListNode<int> headPrevious(LinkedList<int> safeDial)
-{
-    return safeDial.Last;
-}
-
-static LinkedListNode<int> tailNext(LinkedList<int> safeDial)
-{
-    return safeDial.First;
-}
-
-//Write method to populate list
 
 
 
@@ -114,9 +114,12 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
     {
         tail.next = tail;
     }
-    //new node needs to become last node
-    //Node head = tail.next; //this line is strange
-    //newNode.next = head;
+
+    /*
+    if(tail.previous == null)
+    {
+        tail.previous = tail;
+    }*/
 
     tail.next = newNode;
 
@@ -125,7 +128,6 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
     return tail;
 }
 
-//edit print statement so that it prints 1,2,3 instead of 3,2,1
 static void printLinkedList(Node head)
 {
     if (head == null) return;
@@ -149,6 +151,27 @@ static void printLinkedList(Node head)
         }
     }
     Console.WriteLine();
+}
+
+static void TraverseListRight(Node head, int traversalDepth)
+{
+    if (head == null) return;
+    int zeroCount = 0; 
+
+    Node temp = head;
+    for (int i = 0; i < traversalDepth; i++)
+    {
+        if (temp != null)
+        {
+            //Console.WriteLine(temp.data);
+            if (i == traversalDepth && temp.data == 0)
+            {
+                zeroCount++;
+            }
+            temp = temp.next;
+
+        }
+    }
 }
 
 
