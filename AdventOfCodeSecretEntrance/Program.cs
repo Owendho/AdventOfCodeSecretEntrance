@@ -31,20 +31,23 @@ static void calculateZeros(string inputFromText)
     //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
     int amountOfrows = 0;
     string direction = " ";
+    int traversalDepth = 0;
     for (int i = 0; i < amountOfrows; i++)
     {
 
         if (direction == "R")
         {
-            
+            //traverse safe amount of traversal depth
+        }
+
+        if (direction == "L")
+        {
+            //traverse safe amount of traversal depth
         }
     }
 
 
 }
-
-
-
 
 
 
@@ -107,25 +110,35 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
     if (tail == null)
     {
         newNode.next = newNode;
+        newNode.previous = newNode;
         return newNode;
     }
 
-    if(tail.next == null)
+    if (tail.next == null)
     {
         tail.next = tail;
     }
 
-    /*
+    Node head = tail.next;
+    
+    
+
+
+    
     if(tail.previous == null)
     {
         tail.previous = tail;
-    }*/
+    }
+    
+    //tail.next = newNode; //why is this null?
+    newNode.next = head; //why is head null. must because tail.next is null
+    newNode.previous = tail; //why is tail null
 
     tail.next = newNode;
+    head.previous = newNode; //why is newnode null
 
-    tail = newNode;
 
-    return tail;
+    return newNode;
 }
 
 static void printLinkedList(Node head)
