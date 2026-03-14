@@ -32,8 +32,11 @@ static void calculateZeros(string inputFromText)
     int amountOfrows = 0;
     string direction = " ";
     int traversalDepth = 0;
+
     for (int i = 0; i < amountOfrows; i++)
     {
+        //start by traversing 50 to the right every time since the dial starts on 50. does it need to save the previous position. if so create variable called previous position
+        //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions
 
         if (direction == "R")
         {
@@ -101,8 +104,6 @@ static Node InsertAtBeginning(Node last, int key) //cicular linked list
 }
 
 
-
-
 static Node InsertAtEnd(Node tail, int key) // circular linked list
 {
     Node newNode = new Node(key);
@@ -120,9 +121,6 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
     }
 
     Node head = tail.next;
-    
-    
-
 
     
     if(tail.previous == null)
