@@ -26,26 +26,65 @@ for (int i = 1; i < 101; i++) //changed to 3 temporarily
 //TraveserseLinkedList(head);
 printLinkedList(head);
 
-static void calculateZeros(string inputFromText)
+static void DialAtZeroCount(string inputFromText, Node head)
 {
     //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
     int amountOfrows = 0;
     string direction = " ";
-    int traversalDepth = 0;
+    int lastTraversalDepth = 0;
+    bool isOnStartPosition = true;
+    bool traverseRight = false;
+    bool traverseLeft = false;
+    int tempTraversal = 0;
+    int numberInputFromText = 0; //temp value
 
     for (int i = 0; i < amountOfrows; i++)
     {
         //start by traversing 50 to the right every time since the dial starts on 50. does it need to save the previous position. if so create variable called previous position
-        //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions
+        //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions the dial
+        //does infact save the position. the dial also starts at 50
+        if(isOnStartPosition)
+        {
+            lastTraversalDepth = TraverseListRight(head, 50);
+            isOnStartPosition = false;
+            traverseRight = true;
+        }
 
         if (direction == "R")
         {
-            //traverse safe amount of traversal depth
+            if(traverseRight == true)
+            {
+                tempTraversal = TraverseListRight(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListRight(head, numberInputFromText); //create method that splits text and returns the number and direction. 
+                traverseRight = true; //maybe not have this line of code here
+
+            }
+
+            if (traverseLeft == true)
+            {
+                tempTraversal = TraverseListLeft(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListRight(head, numberInputFromText);
+            }
+
         }
 
         if (direction == "L")
         {
-            //traverse safe amount of traversal depth
+            TraverseListLeft(head, 0);
+
+            if (traverseRight == true)
+            {
+                tempTraversal = TraverseListRight(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListLeft(head, numberInputFromText); //create method that splits text and returns the number and direction. 
+                traverseRight = true; //maybe not have this line of code here
+
+            }
+
+            if (traverseLeft == true)
+            {
+                tempTraversal = TraverseListLeft(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListLeft(head, numberInputFromText);
+            }
         }
     }
 
@@ -164,25 +203,45 @@ static void printLinkedList(Node head)
     Console.WriteLine();
 }
 
-static void TraverseListRight(Node head, int traversalDepth)
+static int TraverseListRight(Node head, int traversalDepth)
 {
-    if (head == null) return;
-    int zeroCount = 0; 
-
+    if (head == null) return 0; //change this null check
+    //int zeroCount = 0; 
+    int nodeData = 0; //position in the list
     Node temp = head;
     for (int i = 0; i < traversalDepth; i++)
     {
         if (temp != null)
         {
             //Console.WriteLine(temp.data);
-            if (i == traversalDepth && temp.data == 0)
+            if (i == traversalDepth)
             {
-                zeroCount++;
+                nodeData = temp.data;
             }
             temp = temp.next;
-
         }
     }
+    return nodeData;
 }
 
+static int TraverseListLeft(Node head, int traversalDepth)
+{
+    if (head == null) return 0; //change this null check
+    //int zeroCount = 0; 
+    int nodeData = 0; //position in the list
+    Node temp = head;
+    for (int i = 0; i < traversalDepth; i++)
+    {
+        if (temp != null)
+        {
+            //Console.WriteLine(temp.data);
+            if (i == traversalDepth)
+            {
+                nodeData = temp.data;
+            }
+            temp = temp.previous;
+        }
+    }
+    return nodeData;
+}
 
