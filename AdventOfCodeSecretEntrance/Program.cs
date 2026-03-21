@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AdventOfCodeSecretEntrance;
+using System.IO;
 
 Console.WriteLine("Hello, World!");
 
@@ -25,6 +26,9 @@ for (int i = 1; i < 101; i++) //changed to 3 temporarily
 
 //TraveserseLinkedList(head);
 printLinkedList(head);
+
+ReadInputFromFile();
+
 
 static void DialAtZeroCount(string inputFromText, Node head)
 {
@@ -64,8 +68,8 @@ static void DialAtZeroCount(string inputFromText, Node head)
             {
                 tempTraversal = TraverseListLeft(head, lastTraversalDepth);
                 lastTraversalDepth = TraverseListRight(head, numberInputFromText);
-            }
 
+            }
         }
 
         if (direction == "L")
@@ -87,8 +91,6 @@ static void DialAtZeroCount(string inputFromText, Node head)
             }
         }
     }
-
-
 }
 
 
@@ -245,3 +247,30 @@ static int TraverseListLeft(Node head, int traversalDepth)
     return nodeData;
 }
 
+static void ReadInputFromFile() //include path parameter later. return string later
+{
+    try
+    {
+        StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
+
+        string line = sr.ReadLine();
+
+        while (line != null)
+        {
+            Console.WriteLine(line);
+
+            line = sr.ReadLine();
+        }
+        //Close file
+        sr.Close();
+        Console.ReadLine();
+    }
+    catch(Exception e)
+    {
+        Console.WriteLine("Exception: " + e.Message);
+    }
+    finally
+    {
+        Console.WriteLine("Executing finally block.");
+    }
+}
