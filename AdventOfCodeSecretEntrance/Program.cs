@@ -27,10 +27,12 @@ for (int i = 1; i < 101; i++) //changed to 3 temporarily
 //TraveserseLinkedList(head);
 printLinkedList(head);
 
-ReadInputFromFile();
+//DialAtZeroCount()
 
+//ReadInputFromFile();
 
-static void DialAtZeroCount(string inputFromText, Node head)
+DialAtZeroCount(ReadInputFromFile(), head);
+static void DialAtZeroCount(string[] inputFromText, Node head)
 {
     //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
     int amountOfrows = 0;
@@ -247,10 +249,14 @@ static int TraverseListLeft(Node head, int traversalDepth)
     return nodeData;
 }
 
-static void ReadInputFromFile() //include path parameter later. return string later
+static string[] ReadInputFromFile() //include path parameter later. return string later
 {
+    string[] textInputArray = new string[5000];
+    int i = 0;
+
     try
     {
+
         StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
 
         string line = sr.ReadLine();
@@ -260,10 +266,14 @@ static void ReadInputFromFile() //include path parameter later. return string la
             Console.WriteLine(line);
 
             line = sr.ReadLine();
+            textInputArray[i] = line;
+            i++;
         }
         //Close file
         sr.Close();
         Console.ReadLine();
+
+        return textInputArray;
     }
     catch(Exception e)
     {
@@ -273,4 +283,6 @@ static void ReadInputFromFile() //include path parameter later. return string la
     {
         Console.WriteLine("Executing finally block.");
     }
+
+    return textInputArray;
 }
