@@ -31,68 +31,74 @@ printLinkedList(head);
 
 //ReadInputFromFile();
 
-DialAtZeroCount(ReadInputFromFile(), head);
-static void DialAtZeroCount(string[] inputFromText, Node head)
+//DialAtZeroCount(ReadInputFromFile(), head);
+static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, Node head)
 {
-    //create a forloop for the amount of input. if input starts with r forwards. if it starts with l then go backwards. start by traversing 50 nodes to the right
-    int amountOfrows = 0;
+    //start by traversing 50 nodes to the right
     string direction = " ";
     int lastTraversalDepth = 0;
     bool isOnStartPosition = true;
     bool traverseRight = false;
     bool traverseLeft = false;
     int tempTraversal = 0;
-    int numberInputFromText = 0; //temp value
+    int numberInputFromText = 0;
+    DialInfo dialInfo = new DialInfo();
 
-    for (int i = 0; i < amountOfrows; i++)
+    //temp value
+    //start by traversing 50 to the right every time since the dial starts on 50. does it need to save the previous position. if so create variable called previous position
+    //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions the dial
+    //does infact save the position. the dial also starts at 50
+
+    if (isOnStartPosition)
     {
-        //start by traversing 50 to the right every time since the dial starts on 50. does it need to save the previous position. if so create variable called previous position
-        //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions the dial
-        //does infact save the position. the dial also starts at 50
-        if(isOnStartPosition)
+        lastTraversalDepth = TraverseListRight(head, 50);
+        isOnStartPosition = false;
+        traverseRight = true;
+    }
+
+    if (direction == "R")
+    {
+        if (traverseRight == true)
         {
-            lastTraversalDepth = TraverseListRight(head, 50);
-            isOnStartPosition = false;
-            traverseRight = true;
+            tempTraversal = TraverseListRight(head, lastTraversalDepth);
+            lastTraversalDepth = TraverseListRight(head, numberInputFromText); //create method that splits text and returns the number and direction. 
+            traverseRight = true; //maybe not have this line of code here
+
         }
 
-        if (direction == "R")
+        if (traverseLeft == true)
         {
-            if(traverseRight == true)
-            {
-                tempTraversal = TraverseListRight(head, lastTraversalDepth);
-                lastTraversalDepth = TraverseListRight(head, numberInputFromText); //create method that splits text and returns the number and direction. 
-                traverseRight = true; //maybe not have this line of code here
+            tempTraversal = TraverseListLeft(head, lastTraversalDepth);
+            lastTraversalDepth = TraverseListRight(head, numberInputFromText);
 
-            }
-
-            if (traverseLeft == true)
-            {
-                tempTraversal = TraverseListLeft(head, lastTraversalDepth);
-                lastTraversalDepth = TraverseListRight(head, numberInputFromText);
-
-            }
-        }
-
-        if (direction == "L")
-        {
-            TraverseListLeft(head, 0);
-
-            if (traverseRight == true)
-            {
-                tempTraversal = TraverseListRight(head, lastTraversalDepth);
-                lastTraversalDepth = TraverseListLeft(head, numberInputFromText); //create method that splits text and returns the number and direction. 
-                traverseRight = true; //maybe not have this line of code here
-
-            }
-
-            if (traverseLeft == true)
-            {
-                tempTraversal = TraverseListLeft(head, lastTraversalDepth);
-                lastTraversalDepth = TraverseListLeft(head, numberInputFromText);
-            }
         }
     }
+
+    if (direction == "L")
+    {
+        TraverseListLeft(head, 0);
+
+        if (traverseRight == true)
+        {
+            tempTraversal = TraverseListRight(head, lastTraversalDepth);
+            lastTraversalDepth = TraverseListLeft(head, numberInputFromText); //create method that splits text and returns the number and direction. 
+            traverseRight = true; //maybe not have this line of code here
+
+        }
+
+        if (traverseLeft == true)
+        {
+            tempTraversal = TraverseListLeft(head, lastTraversalDepth);
+            lastTraversalDepth = TraverseListLeft(head, numberInputFromText);
+        }
+    }
+
+    dialInfo.LastTraversalPosition = tempTraversal;
+    dialInfo.IsOnStartPosition = isOnStartPosition;
+    dialInfo.TraversalLeft = traverseLeft;
+    dialInfo.TraversedRight = traverseRight;
+    
+    return dialInfo;
 }
 
 
@@ -276,6 +282,51 @@ static string[] ReadInputFromFile() //include path parameter later. return strin
         return textInputArray;
     }
     catch(Exception e)
+    {
+        Console.WriteLine("Exception: " + e.Message);
+    }
+    finally
+    {
+        Console.WriteLine("Executing finally block.");
+    }
+
+    return textInputArray;
+}
+
+
+static string[] ReadInputFromFileTurnDial(Node head) //include path parameter later. return string later
+{
+    string[] textInputArray = new string[5000];
+    int i = 0;
+
+    try
+    {
+
+        StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
+
+        string line = sr.ReadLine();
+        string turnDirection = " ";
+        string traversalDistance = " ";
+
+        while (line != null)
+        {
+            Console.WriteLine(line);
+
+            line = sr.ReadLine();
+            turnDirection = line.Substring(0, 1);
+            traversalDistance = line.Substring(1);
+            DialAtZeroCount(turnDirection, traversalDistance, head);
+
+            textInputArray[i] = line;
+            i++;
+        }
+        //Close file
+        sr.Close();
+        Console.ReadLine();
+
+        return textInputArray;
+    }
+    catch (Exception e)
     {
         Console.WriteLine("Exception: " + e.Message);
     }
