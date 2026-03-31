@@ -129,7 +129,7 @@ static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, 
     return dialInfo;
 }
 
-static string[] ReadInputFromFileTurnDial(Node head) //include path parameter later. return string later
+static void ReadInputFromFileTurnDial(Node head) //include path parameter later. return string later
 {
     string[] textInputArray = new string[5000];
     int i = 0;
@@ -161,7 +161,7 @@ static string[] ReadInputFromFileTurnDial(Node head) //include path parameter la
         sr.Close();
         Console.ReadLine();
 
-        return textInputArray;
+        //return textInputArray;
     }
     catch (Exception e)
     {
@@ -172,7 +172,7 @@ static string[] ReadInputFromFileTurnDial(Node head) //include path parameter la
         Console.WriteLine("Executing finally block.");
     }
 
-    return textInputArray;
+    //return textInputArray;
 }
 
 
@@ -250,8 +250,7 @@ static Node InsertAtEnd(Node tail, int key) // circular linked list
     {
         tail.previous = tail;
     }
-    
-    //tail.next = newNode; //why is this null?
+
     newNode.next = head; //why is head null. must because tail.next is null
     newNode.previous = tail; //why is tail null
 
@@ -266,7 +265,6 @@ static void printLinkedList(Node head)
 {
     if (head == null) return;
 
-    //Node head = last;
     Node temp = head;
 
     while (true)
