@@ -25,14 +25,14 @@ for (int i = 1; i < 101; i++) //changed to 3 temporarily
 //Need to create method that reads input from a text file
 
 //TraveserseLinkedList(head);
-printLinkedList(head);
+//printLinkedList(head);
 
 //DialAtZeroCount()
 
 //ReadInputFromFile();
 
 //DialAtZeroCount(ReadInputFromFile(), head);
-static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, Node head)
+static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, Node head, DialInfo dialInfo)
 {
     //start by traversing 50 nodes to the right
     string direction = " ";
@@ -41,8 +41,8 @@ static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, 
     bool traverseRight = false;
     bool traverseLeft = false;
     int tempTraversal = 0;
-    int numberInputFromText = 0;
-    DialInfo dialInfo = new DialInfo();
+    int numberInputFromText = 0; //this is the pointer value
+    int zeroCount = 0;
 
     //temp value
     //start by traversing 50 to the right every time since the dial starts on 50. does it need to save the previous position. if so create variable called previous position
@@ -54,51 +54,125 @@ static DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, 
         lastTraversalDepth = TraverseListRight(head, 50);
         isOnStartPosition = false;
         traverseRight = true;
+        traverseLeft = false;
     }
 
     if (direction == "R")
     {
         if (traverseRight == true)
         {
-            tempTraversal = TraverseListRight(head, lastTraversalDepth);
-            lastTraversalDepth = TraverseListRight(head, numberInputFromText); //create method that splits text and returns the number and direction. 
-            traverseRight = true; //maybe not have this line of code here
+            tempTraversal = TraverseListRight(head, lastTraversalDepth); //lasttraversal also need the direction
+            lastTraversalDepth = TraverseListRight(head, Int32.Parse(traversalDistance)); 
+            traverseRight = true;
+            traverseLeft = false;
+            
+            if (lastTraversalDepth == 0)
+            {
+                dialInfo.ZeroCount += 1;
+            }
+
 
         }
 
         if (traverseLeft == true)
         {
             tempTraversal = TraverseListLeft(head, lastTraversalDepth);
-            lastTraversalDepth = TraverseListRight(head, numberInputFromText);
+            lastTraversalDepth = TraverseListRight(head, Int32.Parse(traversalDistance));
+            traverseLeft = true;
+            traverseRight = false;
 
+            if (lastTraversalDepth == 0)
+            {
+                dialInfo.ZeroCount += 1;
+            }
+
+        }
+
+        if (direction == "L")
+        {
+            TraverseListLeft(head, 0);
+
+            if (traverseRight == true)
+            {
+                tempTraversal = TraverseListRight(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListLeft(head, Int32.Parse(traversalDistance));
+                traverseRight = true;
+                traverseLeft = false;
+
+                if (lastTraversalDepth == 0)
+                {
+                    dialInfo.ZeroCount += 1;
+                }
+
+            }
+
+            if (traverseLeft == true)
+            {
+                tempTraversal = TraverseListLeft(head, lastTraversalDepth);
+                lastTraversalDepth = TraverseListLeft(head, Int32.Parse(traversalDistance));
+                traverseLeft = true;
+                traverseRight = false;
+
+                if (lastTraversalDepth == 0)
+                {
+                    dialInfo.ZeroCount += 1;
+                }
+            }
         }
     }
-
-    if (direction == "L")
-    {
-        TraverseListLeft(head, 0);
-
-        if (traverseRight == true)
-        {
-            tempTraversal = TraverseListRight(head, lastTraversalDepth);
-            lastTraversalDepth = TraverseListLeft(head, numberInputFromText); //create method that splits text and returns the number and direction. 
-            traverseRight = true; //maybe not have this line of code here
-
-        }
-
-        if (traverseLeft == true)
-        {
-            tempTraversal = TraverseListLeft(head, lastTraversalDepth);
-            lastTraversalDepth = TraverseListLeft(head, numberInputFromText);
-        }
-    }
-
     dialInfo.LastTraversalPosition = tempTraversal;
     dialInfo.IsOnStartPosition = isOnStartPosition;
     dialInfo.TraversalLeft = traverseLeft;
     dialInfo.TraversedRight = traverseRight;
+
     
     return dialInfo;
+}
+
+static string[] ReadInputFromFileTurnDial(Node head) //include path parameter later. return string later
+{
+    string[] textInputArray = new string[5000];
+    int i = 0;
+
+    try
+    {
+
+        StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
+
+        string line = sr.ReadLine();
+        string turnDirection = " ";
+        string traversalDistance = " ";
+        DialInfo dialInfo = new DialInfo(0, true, false, false);
+
+
+        while (line != null)
+        {
+            Console.WriteLine(line);
+
+            line = sr.ReadLine();
+            turnDirection = line.Substring(0, 1);
+            traversalDistance = line.Substring(1);
+            dialInfo = DialAtZeroCount(turnDirection, traversalDistance, head, dialInfo);
+
+            textInputArray[i] = line;
+            i++;
+        }
+        //Close file
+        sr.Close();
+        Console.ReadLine();
+
+        return textInputArray;
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Exception: " + e.Message);
+    }
+    finally
+    {
+        Console.WriteLine("Executing finally block.");
+    }
+
+    return textInputArray;
 }
 
 
@@ -227,6 +301,7 @@ static int TraverseListRight(Node head, int traversalDepth)
             if (i == traversalDepth)
             {
                 nodeData = temp.data;
+                return nodeData;
             }
             temp = temp.next;
         }
@@ -294,46 +369,3 @@ static string[] ReadInputFromFile() //include path parameter later. return strin
 }
 
 
-static string[] ReadInputFromFileTurnDial(Node head) //include path parameter later. return string later
-{
-    string[] textInputArray = new string[5000];
-    int i = 0;
-
-    try
-    {
-
-        StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
-
-        string line = sr.ReadLine();
-        string turnDirection = " ";
-        string traversalDistance = " ";
-
-        while (line != null)
-        {
-            Console.WriteLine(line);
-
-            line = sr.ReadLine();
-            turnDirection = line.Substring(0, 1);
-            traversalDistance = line.Substring(1);
-            DialAtZeroCount(turnDirection, traversalDistance, head);
-
-            textInputArray[i] = line;
-            i++;
-        }
-        //Close file
-        sr.Close();
-        Console.ReadLine();
-
-        return textInputArray;
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine("Exception: " + e.Message);
-    }
-    finally
-    {
-        Console.WriteLine("Executing finally block.");
-    }
-
-    return textInputArray;
-}

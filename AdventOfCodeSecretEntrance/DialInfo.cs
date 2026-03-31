@@ -19,5 +19,8 @@ namespace AdventOfCodeSecretEntrance
         public bool TraversedRight {  get; set; }
         public bool TraversalLeft { get; set; }
 
+        public int ZeroCount { get; set; }
+
+
     }
 }
