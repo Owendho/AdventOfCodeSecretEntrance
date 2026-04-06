@@ -8,7 +8,7 @@ Console.WriteLine("Hello, World!");
 //need to make my own circular doubly linked list 
 
 
-LinkedList linkedList = new LinkedList();
+SMLinkedList linkedList = new SMLinkedList();
 Dial dial = new Dial(linkedList);
 
 Node head = new Node(0);

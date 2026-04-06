@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AdventOfCodeSecretEntrance
 {
-    public class LinkedList
+    public class SMLinkedList
     {
         public void TraveserseLinkedList(Node head)
         {

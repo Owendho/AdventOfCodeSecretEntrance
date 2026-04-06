@@ -7,8 +7,8 @@ namespace AdventOfCodeSecretEntrance
 {
     public class Dial
     {
-        LinkedList _linkedList;
-        public Dial(LinkedList linkedList) //Dependency inject
+        SMLinkedList _linkedList;
+        public Dial(SMLinkedList linkedList) //Dependency inject
         {
             _linkedList = linkedList;
         }
