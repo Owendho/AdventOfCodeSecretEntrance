@@ -34,7 +34,7 @@ namespace SecretEntranceTests
             
 
             //Populate linked list
-            for (int i = 1; i < 5; i++) 
+            for (int i = 1; i < 60; i++) 
             {
                 current = _linkedList.InsertAtEnd(current, i);
             }
@@ -48,7 +48,7 @@ namespace SecretEntranceTests
                 Assert.That(_dialInfo.TraversedRight, Is.EqualTo(true));
                 Assert.That(_dialInfo.TraversalLeft, Is.EqualTo(false));
                 Assert.That(_dialInfo.IsOnStartPosition, Is.EqualTo(false));
-                Assert.That(_dialInfo.LastTraversalPosition, Is.EqualTo(3));
+                Assert.That(_dialInfo.LastTraversalPosition, Is.EqualTo(53));
             }
 
             Assert.Pass();

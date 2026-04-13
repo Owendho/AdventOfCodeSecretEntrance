@@ -15,7 +15,7 @@ namespace AdventOfCodeSecretEntrance
         public DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, Node head, DialInfo dialInfo)
         {
             //start by traversing 50 nodes to the right
-            string direction = " ";
+            string direction = turnDirection;
             int lastTraversalDepth = 0;
             bool isOnStartPosition = true;
             bool traverseRight = false;
@@ -30,9 +30,9 @@ namespace AdventOfCodeSecretEntrance
             //that stores a returned value from whichever if statement was hit. then traverse to that position before the next 'turn' of the dial. need to review the instructions the dial
             //does infact save the position. the dial also starts at 50
 
-            if (isOnStartPosition)
+            if (dialInfo.IsOnStartPosition == true)
             {
-                lastTraversalDepth = _linkedList.TraverseListRight(head, 50);
+                lastTraversalDepth = _linkedList.TraverseListRight(head, 3); //make this 50 again
                 isOnStartPosition = false;
                 traverseRight = true;
                 traverseLeft = false;
@@ -42,8 +42,8 @@ namespace AdventOfCodeSecretEntrance
             {
                 if (traverseRight == true)
                 {
-                    tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth); //lasttraversal also need the direction
-                    lastTraversalDepth = _linkedList.TraverseListRight(head, Int32.Parse(traversalDistance));
+                    //tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth); //lasttraversal also need the direction
+                    lastTraversalDepth = _linkedList.TraverseListRight(head, lastTraversalDepth + Int32.Parse(traversalDistance)); //what to do if the last traverasal was in the opposite direction?
                     traverseRight = true;
                     traverseLeft = false;
 
@@ -52,13 +52,15 @@ namespace AdventOfCodeSecretEntrance
                         dialInfo.ZeroCount += 1;
                     }
 
+                    dialInfo.IsOnStartPosition = false;
+
 
                 }
 
                 if (traverseLeft == true)
                 {
-                    tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
-                    lastTraversalDepth = _linkedList.TraverseListRight(head, Int32.Parse(traversalDistance));
+                    //tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
+                    lastTraversalDepth = _linkedList.TraverseListLeftThenRight(head, lastTraversalDepth, Int32.Parse(traversalDistance)); //how to resolve traversing in opposite directions. need to combine travesrse right and left method
                     traverseLeft = true;
                     traverseRight = false;
 
@@ -66,6 +68,8 @@ namespace AdventOfCodeSecretEntrance
                     {
                         dialInfo.ZeroCount += 1;
                     }
+
+                    dialInfo.IsOnStartPosition = false;
 
                 }
 
@@ -75,8 +79,8 @@ namespace AdventOfCodeSecretEntrance
 
                     if (traverseRight == true)
                     {
-                        tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth);
-                        lastTraversalDepth = _linkedList.TraverseListLeft(head, Int32.Parse(traversalDistance));
+                        //tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth);
+                        lastTraversalDepth = _linkedList.TraverseListRightThenLeft(head, lastTraversalDepth, Int32.Parse(traversalDistance));
                         traverseRight = true;
                         traverseLeft = false;
 
@@ -85,12 +89,13 @@ namespace AdventOfCodeSecretEntrance
                             dialInfo.ZeroCount += 1;
                         }
 
+                        dialInfo.IsOnStartPosition = false;
                     }
 
                     if (traverseLeft == true)
                     {
-                        tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
-                        lastTraversalDepth = _linkedList.TraverseListLeft(head, Int32.Parse(traversalDistance));
+                        //tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
+                        lastTraversalDepth = _linkedList.TraverseListLeft(head, lastTraversalDepth + Int32.Parse(traversalDistance));
                         traverseLeft = true;
                         traverseRight = false;
 
@@ -98,11 +103,12 @@ namespace AdventOfCodeSecretEntrance
                         {
                             dialInfo.ZeroCount += 1;
                         }
+
+                        dialInfo.IsOnStartPosition = false;
                     }
                 }
             }
             dialInfo.LastTraversalPosition = tempTraversal;
-            dialInfo.IsOnStartPosition = isOnStartPosition;
             dialInfo.TraversalLeft = traverseLeft;
             dialInfo.TraversedRight = traverseRight;
 

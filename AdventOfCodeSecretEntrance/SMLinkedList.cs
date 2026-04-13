@@ -121,7 +121,7 @@ namespace AdventOfCodeSecretEntrance
                                         //int zeroCount = 0; 
             int nodeData = 0; //position in the list
             Node temp = head;
-            for (int i = 0; i < traversalDepth; i++)
+            for (int i = 0; i <= traversalDepth; i++)
             {
                 if (temp != null)
                 {
@@ -137,6 +137,41 @@ namespace AdventOfCodeSecretEntrance
             return nodeData;
         }
 
+
+        public int TraverseListRightThenLeft(Node head, int traversalDepthRight, int traversalDepthLeft)
+        {
+            if (head == null) return 0; //change this null check
+                                        //int zeroCount = 0; 
+            int nodeData = 0; //position in the list
+            Node temp = head;
+            for (int i = 0; i <= traversalDepthRight; i++)
+            {
+                if (temp != null)
+                {
+                    //Console.WriteLine(temp.data);
+                    if (i == traversalDepthRight)
+                    {
+                        //nodeData = temp.data;
+                        //return nodeData; //for loop going in the opposite direction here
+                        
+                        for (int j = 0; j < traversalDepthLeft; j++)
+                        {
+                            if (temp != null)
+                            {
+                                //Console.WriteLine(temp.data);
+                                if (j == traversalDepthLeft)
+                                {
+                                    nodeData = temp.data;
+                                }
+                                temp = temp.previous;
+                            }
+                        }
+                    }
+                    temp = temp.next;
+                }
+            }
+            return nodeData;
+        }
         public int TraverseListLeft(Node head, int traversalDepth)
         {
             if (head == null) return 0; //change this null check
@@ -151,6 +186,39 @@ namespace AdventOfCodeSecretEntrance
                     if (i == traversalDepth)
                     {
                         nodeData = temp.data;
+                    }
+                    temp = temp.previous;
+                }
+            }
+            return nodeData;
+        }
+
+        public int TraverseListLeftThenRight(Node head, int traversalDepthLeft, int traversalDepthRight)
+        {
+            if (head == null) return 0; //change this null check
+                                        //int zeroCount = 0; 
+            int nodeData = 0; //position in the list
+            Node temp = head;
+            for (int i = 0; i < traversalDepthLeft; i++)
+            {
+                if (temp != null)
+                {
+                    //Console.WriteLine(temp.data);
+                    if (i == traversalDepthLeft)
+                    {
+                        for (int j = 0; i <= traversalDepthRight; j++)
+                        {
+                            if (temp != null)
+                            {
+                                //Console.WriteLine(temp.data);
+                                if (j == traversalDepthRight)
+                                {
+                                    nodeData = temp.data;
+                                    return nodeData;
+                                }
+                                temp = temp.next;
+                            }
+                        }
                     }
                     temp = temp.previous;
                 }
