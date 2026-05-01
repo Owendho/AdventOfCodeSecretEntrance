@@ -6,18 +6,40 @@ namespace AdventOfCodeSecretEntrance
 {
     public struct DialInfo
     {
+        //Change contructor
         public DialInfo(int lastTraversalPosition, bool isOnStartPosition, bool traversalRight, bool traversalLeft) 
         {
             LastTraversalPosition = lastTraversalPosition;
             IsOnStartPosition = isOnStartPosition;
             TraversedRight = traversalRight;
-            TraversalLeft = traversalLeft;
+            TraversedLeft = traversalLeft;
         }
 
-        public int LastTraversalPosition {  get; set; }
-        public bool IsOnStartPosition { get; set; }
-        public bool TraversedRight {  get; set; }
-        public bool TraversalLeft { get; set; }
+        private int _lastTraversalPosition = 0;
+        public int LastTraversalPosition
+        {
+            get {  return _lastTraversalPosition; }
+            set { _lastTraversalPosition = value; }
+        }
+
+        private bool _isOnStartPosition = true;
+        public bool IsOnStartPosition 
+        {
+            get { return _isOnStartPosition; }
+            set { _isOnStartPosition = value; }
+        }
+        private bool _traversedRight = false;
+        public bool TraversedRight 
+        {
+            get { return _traversedRight; }
+            set { _traversedRight = value; }
+        }
+        private bool _traversedLeft = false;
+        public bool TraversedLeft
+        {
+            get { return _traversedLeft; }
+            set { _traversedLeft = value; }
+        }
 
         public int ZeroCount { get; set; }
 

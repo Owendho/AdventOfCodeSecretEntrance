@@ -14,15 +14,8 @@ namespace AdventOfCodeSecretEntrance
         }
         public DialInfo DialAtZeroCount(string turnDirection, string traversalDistance, Node head, DialInfo dialInfo)
         {
+            //Can't define booleans here. need to define them in the dialInfo object
             //start by traversing 50 nodes to the right
-            string direction = turnDirection;
-            int lastTraversalDepth = 0;
-            bool isOnStartPosition = true;
-            bool traverseRight = false;
-            bool traverseLeft = false;
-            int tempTraversal = 0;
-            int numberInputFromText = 0; //this is the pointer value
-            int zeroCount = 0;
 
 
             //temp value
@@ -32,22 +25,22 @@ namespace AdventOfCodeSecretEntrance
 
             if (dialInfo.IsOnStartPosition == true)
             {
-                lastTraversalDepth = _linkedList.TraverseListRight(head, 3); //make this 50 again
-                isOnStartPosition = false;
-                traverseRight = true;
-                traverseLeft = false;
+                dialInfo.LastTraversalPosition = _linkedList.TraverseListRight(head, 50); //make this 50 again
+                dialInfo.IsOnStartPosition = false;
+                dialInfo.TraversedRight = true;
+                dialInfo.TraversedLeft = false;
             }
 
-            if (direction == "R")
+            if (turnDirection == "R")
             {
-                if (traverseRight == true)
+                if (dialInfo.TraversedRight == true)
                 {
                     //tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth); //lasttraversal also need the direction
-                    lastTraversalDepth = _linkedList.TraverseListRight(head, lastTraversalDepth + Int32.Parse(traversalDistance)); //what to do if the last traverasal was in the opposite direction?
-                    traverseRight = true;
-                    traverseLeft = false;
+                    dialInfo.LastTraversalPosition = _linkedList.TraverseListRight(head, dialInfo.LastTraversalPosition + Int32.Parse(traversalDistance)); //what to do if the last traverasal was in the opposite direction?
+                    dialInfo.TraversedRight = true;
+                    dialInfo.TraversedLeft = false;
 
-                    if (lastTraversalDepth == 0)
+                    if (dialInfo.LastTraversalPosition == 0)
                     {
                         dialInfo.ZeroCount += 1;
                     }
@@ -57,14 +50,14 @@ namespace AdventOfCodeSecretEntrance
 
                 }
 
-                if (traverseLeft == true)
+                if (dialInfo.TraversedLeft == true)
                 {
                     //tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
-                    lastTraversalDepth = _linkedList.TraverseListLeftThenRight(head, lastTraversalDepth, Int32.Parse(traversalDistance)); //how to resolve traversing in opposite directions. need to combine travesrse right and left method
-                    traverseLeft = true;
-                    traverseRight = false;
+                    dialInfo.LastTraversalPosition = _linkedList.TraverseListLeftThenRight(head, dialInfo.LastTraversalPosition, Int32.Parse(traversalDistance)); //how to resolve traversing in opposite directions. need to combine travesrse right and left method
+                    dialInfo.TraversedLeft = true;
+                    dialInfo.TraversedRight = false;
 
-                    if (lastTraversalDepth == 0)
+                    if (dialInfo.LastTraversalPosition == 0)
                     {
                         dialInfo.ZeroCount += 1;
                     }
@@ -72,46 +65,41 @@ namespace AdventOfCodeSecretEntrance
                     dialInfo.IsOnStartPosition = false;
 
                 }
+            }
 
-                if (direction == "L")
+            if (turnDirection == "L")
+            {
+
+                if (dialInfo.TraversedRight == true)
                 {
-                    _linkedList.TraverseListLeft(head, 0);
 
-                    if (traverseRight == true)
+                    dialInfo.LastTraversalPosition = _linkedList.TraverseListRightThenLeft(head, dialInfo.LastTraversalPosition, Int32.Parse(traversalDistance));
+                    dialInfo.TraversedRight = false; 
+                    dialInfo.TraversedLeft = true; 
+
+                    if (dialInfo.LastTraversalPosition == 0)
                     {
-                        //tempTraversal = _linkedList.TraverseListRight(head, lastTraversalDepth);
-                        lastTraversalDepth = _linkedList.TraverseListRightThenLeft(head, lastTraversalDepth, Int32.Parse(traversalDistance));
-                        traverseRight = true;
-                        traverseLeft = false;
-
-                        if (lastTraversalDepth == 0)
-                        {
-                            dialInfo.ZeroCount += 1;
-                        }
-
-                        dialInfo.IsOnStartPosition = false;
+                        dialInfo.ZeroCount += 1;
                     }
 
-                    if (traverseLeft == true)
+                    dialInfo.IsOnStartPosition = false;
+                }
+
+                if (dialInfo.TraversedLeft == true)
+                {
+                    dialInfo.LastTraversalPosition = _linkedList.TraverseListLeft(head, dialInfo.LastTraversalPosition + Int32.Parse(traversalDistance));
+                    dialInfo.TraversedLeft = true;
+                    dialInfo.TraversedRight = false;
+
+                    if (dialInfo.LastTraversalPosition == 0)
                     {
-                        //tempTraversal = _linkedList.TraverseListLeft(head, lastTraversalDepth);
-                        lastTraversalDepth = _linkedList.TraverseListLeft(head, lastTraversalDepth + Int32.Parse(traversalDistance));
-                        traverseLeft = true;
-                        traverseRight = false;
-
-                        if (lastTraversalDepth == 0)
-                        {
-                            dialInfo.ZeroCount += 1;
-                        }
-
-                        dialInfo.IsOnStartPosition = false;
+                        dialInfo.ZeroCount += 1;
                     }
+
+                    dialInfo.IsOnStartPosition = false;
                 }
             }
-            dialInfo.LastTraversalPosition = tempTraversal;
-            dialInfo.TraversalLeft = traverseLeft;
-            dialInfo.TraversedRight = traverseRight;
-
+            //dialInfo.LastTraversalPosition = lastTraversalDepth; //need to change this variable to lastTraversalDepth
 
             return dialInfo;
         }

@@ -46,29 +46,33 @@ void ReadInputFromFileTurnDial(Node head) //include path parameter later. return
     try
     {
 
-        StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt");
-
-        string line = sr.ReadLine();
-        string turnDirection = " ";
-        string traversalDistance = " ";
-        DialInfo dialInfo = new DialInfo(0, true, false, false);
-
-
-        while (line != null)
+        //using automatically closes file
+        using (StreamReader sr = new StreamReader("C:\\Users\\owend\\Documents\\Adventofcode\\PuzzleInput.txt"))
         {
-            Console.WriteLine(line);
+            string line = sr.ReadLine();
+            string turnDirection = " ";
+            string traversalDistance = " ";
+            DialInfo dialInfo = new DialInfo(0, true, false, false);
 
-            line = sr.ReadLine();
-            turnDirection = line.Substring(0, 1); //make null check. i suspect it returns null when it reaches the last line
-            traversalDistance = line.Substring(1);
-            dialInfo = dial.DialAtZeroCount(turnDirection, traversalDistance, head, dialInfo);
 
-            textInputArray[i] = line;
-            i++;
+            while (line != null)
+            {
+                Console.WriteLine(line);
+
+
+                turnDirection = line.Substring(0, 1); //make null check. i suspect it returns null when it reaches the last line
+                traversalDistance = line.Substring(1);
+                dialInfo = dial.DialAtZeroCount(turnDirection, traversalDistance, head, dialInfo);
+
+                textInputArray[i] = line;
+                i++;
+
+                line = sr.ReadLine();
+            }
+
+            Console.ReadLine();
+            Console.WriteLine(dialInfo.ZeroCount);
         }
-        //Close file
-        sr.Close();
-        Console.ReadLine();
 
         //return textInputArray;
     }
@@ -82,6 +86,7 @@ void ReadInputFromFileTurnDial(Node head) //include path parameter later. return
     }
 
     //return textInputArray;
+
 }
 
 
